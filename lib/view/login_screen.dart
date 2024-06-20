@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:leadpro/view/dashboard.dart';
-import 'package:leadpro/view/mainscreen.dart';
+import 'package:go_router/go_router.dart';
+import 'package:leadpro/constant/routes.dart';
 import 'package:leadpro/widgets/common_widgets/fade_in_animation.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -150,12 +150,7 @@ class LoginScreen extends StatelessWidget {
                       fadeOffset: 90,
                       child: InkWell(
                         onTap: () {
-                          Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      Mainscreen(child: const Dashboard())),
-                              (route) => false);
+                          context.go(AppRoutes.dashboard);
                         },
                         child: Container(
                           height: 50,

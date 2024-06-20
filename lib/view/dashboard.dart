@@ -84,7 +84,7 @@ class _DashboardState extends State<Dashboard> {
                 enable: true,
                 activationMode: ActivationMode.singleTap,
               ),
-              legend: Legend(
+              legend: const Legend(
                 isVisible: true,
               )),
         ),
