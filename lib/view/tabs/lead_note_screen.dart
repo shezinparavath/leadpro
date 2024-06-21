@@ -1,70 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:leadpro/constant/color.dart';
+import 'package:leadpro/constant/decoration.dart';
 import 'package:leadpro/constant/functions.dart';
 import 'package:leadpro/constant/styles.dart';
 import 'package:leadpro/model/lead_notes_model.dart';
 import 'package:leadpro/provider/common_provider.dart';
+import 'package:leadpro/widgets/common_widgets/drop_down_widget.dart';
 import 'package:leadpro/widgets/lead_notes_widgets/lead_notes_card.dart';
 import 'package:provider/provider.dart';
 
-class LeadNoteScreen extends StatefulWidget {
+class LeadNoteScreen extends StatelessWidget {
   const LeadNoteScreen({super.key});
 
-  @override
-  State<LeadNoteScreen> createState() => _LeadNoteScreenState();
-}
-
-class _LeadNoteScreenState extends State<LeadNoteScreen> {
-  String? _selectedDropDownText;
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 10),
-        DropdownButtonFormField<String>(
-          decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: Color(0xFFBDBDBD)),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: const BorderSide(color: Color(0xFFBDBDBD)),
-            ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-          ),
-          value: _selectedDropDownText,
-          items: const [
-            DropdownMenuItem(
-              value: 'data1',
-              child: Text('data1'),
-            ),
-            DropdownMenuItem(
-              value: 'data2',
-              child: Text('data2'),
-            ),
-            DropdownMenuItem(
-              value: 'data3',
-              child: Text('data3'),
-            ),
-            DropdownMenuItem(
-              value: 'data4',
-              child: Text('data4'),
-            ),
-          ],
-          onChanged: (String? value) {
-            setState(() {
-              _selectedDropDownText = value;
-            });
-          },
-          hint: const Text(
-            'Select User...',
-            style: TextStyle(fontSize: 12, color: Color(0xFFBDBDBD)),
-          ),
-          icon: const Icon(Icons.keyboard_arrow_down_rounded,
-              color: Color(0xFFBDBDBD)),
-          borderRadius: BorderRadius.circular(10),
-        ),
+        const BuildDropDown(hintText: 'Select User...'),
         const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -79,8 +34,8 @@ class _LeadNoteScreenState extends State<LeadNoteScreen> {
                 },
                 child: Consumer<CommonProvider>(
                   builder: (context, commonProvider, child) => Container(
-                      height: MediaQuery.of(context).size.height * 0.05,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
                       decoration: BoxDecoration(
                         border: Border.all(color: const Color(0xFFBDBDBD)),
                         borderRadius: BorderRadius.circular(10),
@@ -88,9 +43,12 @@ class _LeadNoteScreenState extends State<LeadNoteScreen> {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              commonProvider.getfromDate(),
-                              style: AppStyles.smallText(context),
+                            Expanded(
+                              child: Text(
+                                commonProvider.getfromDate(),
+                                softWrap: true,
+                                style: AppStyles.smallText(context),
+                              ),
                             ),
                             Icon(Icons.date_range_outlined,
                                 size: MediaQuery.of(context).size.width * .05,
@@ -110,8 +68,8 @@ class _LeadNoteScreenState extends State<LeadNoteScreen> {
                 },
                 child: Consumer<CommonProvider>(
                   builder: (context, commonProvider, child) => Container(
-                      height: MediaQuery.of(context).size.height * 0.05,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 10),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(10),
@@ -119,9 +77,12 @@ class _LeadNoteScreenState extends State<LeadNoteScreen> {
                       child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              commonProvider.gettoDate(),
-                              style: AppStyles.smallText(context),
+                            Expanded(
+                              child: Text(
+                                softWrap: true,
+                                commonProvider.gettoDate(),
+                                style: AppStyles.smallText(context),
+                              ),
                             ),
                             Icon(Icons.date_range_outlined,
                                 size: MediaQuery.of(context).size.width * .05,
@@ -134,11 +95,10 @@ class _LeadNoteScreenState extends State<LeadNoteScreen> {
         ),
         const SizedBox(height: 5),
         ElevatedButton.icon(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xff1890ff),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10))),
+            onPressed: () {
+              addNewNotePopup(context);
+            },
+            style: AppDecoration.buttonStyle(const Color(0xff1890ff)),
             icon: const Icon(Icons.add, color: Colors.white),
             label: Text('Add New Note',
                 style: AppStyles.smallText(context, color: Colors.white))),
@@ -150,5 +110,51 @@ class _LeadNoteScreenState extends State<LeadNoteScreen> {
         )
       ],
     );
+  }
+
+  addNewNotePopup(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text('Add New Notes', style: AppStyles.bigText(context)),
+              content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Notes', style: AppStyles.mediumText(context)),
+                    const Divider(),
+                    TextFormField(
+                        maxLines: 3,
+                        decoration: InputDecoration(
+                            hintText: 'Please Enter Notes',
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide()),
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: const BorderSide())))
+                  ]),
+              actions: [
+                ElevatedButton.icon(
+                    onPressed: () {
+                      context.pop();
+                    },
+                    style: AppDecoration.buttonStyle(AppColors.blue),
+                    icon: const Icon(Icons.note_add, color: Colors.white),
+                    label: Text('Create',
+                        style:
+                            AppStyles.smallText(context, color: Colors.white))),
+                ElevatedButton(
+                    onPressed: () {
+                      context.pop();
+                    },
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            side: const BorderSide(),
+                            borderRadius: BorderRadius.circular(8))),
+                    child: Text('Cancel', style: AppStyles.smallText(context)))
+              ],
+              actionsAlignment: MainAxisAlignment.spaceEvenly,
+            ));
   }
 }

@@ -31,7 +31,7 @@ class _DashboardState extends State<Dashboard> {
         title: 'Call Made'),
     const ItemCountCardModel(
         color: AppColors.lightPink,
-        count: '1 H,32 M,45 S',
+        count: '1H',
         icon: Icons.access_time,
         title: 'Total Duration')
   ];

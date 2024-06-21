@@ -1,8 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:leadpro/constant/color.dart';
+import 'package:leadpro/constant/decoration.dart';
 import 'package:leadpro/constant/functions.dart';
+import 'package:leadpro/constant/routes.dart';
 import 'package:leadpro/constant/styles.dart';
 import 'package:leadpro/main.dart';
 import 'package:leadpro/model/salesman_booking_model.dart';
@@ -19,10 +22,6 @@ class BuildSalemanBookingCard extends StatefulWidget {
 }
 
 class _BuildSalemanBookingCardState extends State<BuildSalemanBookingCard> {
-  void _openEndDrawer() {
-    scaffoldKey.currentState!.openEndDrawer();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -138,23 +137,20 @@ class _BuildSalemanBookingCardState extends State<BuildSalemanBookingCard> {
                           AppFunctions.warningPopUp(context,
                               title: 'Are you Sure?',
                               content:
-                                  'Are you sure you want to resume this lead?');
+                                  'Are you sure you want to resume this lead?',
+                              onYESPressed: () =>
+                                  context.go(AppRoutes.resumeLead));
                         },
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.secondaryColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5))),
+                        style:
+                            AppDecoration.buttonStyle(AppColors.secondaryColor),
                         child: const Icon(Icons.play_circle_outline_rounded,
                             color: Colors.white)),
                   ),
                   const SizedBox(width: 5),
                   Expanded(
                     child: ElevatedButton(
-                        onPressed: _openEndDrawer,
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.blue,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5))),
+                        onPressed: openEndDrawer,
+                        style: AppDecoration.buttonStyle(AppColors.blue),
                         child: const Icon(Icons.visibility_outlined,
                             color: Colors.white)),
                   )

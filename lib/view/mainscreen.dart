@@ -147,13 +147,16 @@ class _MainscreenState extends State<Mainscreen>
                       ],
                     ),
                     Expanded(
-                      child: TabBarView(
-                        controller: _tabController,
-                        children: const [
-                          LeaddataScreen(),
-                          CallLogScreen(),
-                          LeadNoteScreen(),
-                        ],
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TabBarView(
+                          controller: _tabController,
+                          children: const [
+                            LeaddataScreen(),
+                            CallLogScreen(),
+                            LeadNoteScreen(),
+                          ],
+                        ),
                       ),
                     ),
                   ]),
@@ -187,35 +190,35 @@ class _MainscreenState extends State<Mainscreen>
                               decorationColor: Colors.white,
                               color: Colors.white)),
                     )),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        BuildDrawerItems(
-                            icon: Icons.dashboard,
-                            title: 'Dashboard',
-                            notifier: _selectedNotifier,
-                            index: 0),
-                        BuildDrawerItems(
-                            icon: Icons.support_agent,
-                            title: 'Salesman Booking',
-                            notifier: _selectedNotifier,
-                            index: 1),
-                        BuildDrawerItems(
-                            icon: Icons.edit_note_sharp,
-                            title: 'Follow up',
-                            notifier: _selectedNotifier,
-                            index: 2),
-                        BuildDrawerItems(
-                            icon: Icons.logout,
-                            title: 'Log Out',
-                            notifier: _selectedNotifier,
-                            index: 3),
-                      ],
-                    ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 10),
+                      BuildDrawerItems(
+                          icon: Icons.dashboard,
+                          title: 'Dashboard',
+                          notifier: _selectedNotifier,
+                          index: 0),
+                      const SizedBox(height: 10),
+                      BuildDrawerItems(
+                          icon: Icons.support_agent,
+                          title: 'Salesman Booking',
+                          notifier: _selectedNotifier,
+                          index: 1),
+                      const SizedBox(height: 10),
+                      BuildDrawerItems(
+                          icon: Icons.edit_note_sharp,
+                          title: 'Follow up',
+                          notifier: _selectedNotifier,
+                          index: 2),
+                      const SizedBox(height: 10),
+                      BuildDrawerItems(
+                          icon: Icons.logout,
+                          title: 'Log Out',
+                          notifier: _selectedNotifier,
+                          index: 3),
+                    ],
                   ),
                 )
               ])),

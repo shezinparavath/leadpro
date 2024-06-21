@@ -8,6 +8,9 @@ void main() {
 }
 
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+void openEndDrawer() {
+  scaffoldKey.currentState!.openEndDrawer();
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
